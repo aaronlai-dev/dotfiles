@@ -1,0 +1,60 @@
+# bsp, stack or float
+yabai -m config layout bsp
+
+yabai -m config window_placement second_child
+
+# padding
+yabai -m config top_padding 20
+yabai -m config bottom_padding 10
+yabai -m config left_padding 10
+yabai -m config right_padding 10
+yabai -m config window_gap 5
+
+# mouse settings
+
+yabai -m config mouse_follows_focus on
+
+yabai -m config mouse_modifier alt
+
+yabai -m config mouse_action1 move
+
+yabai -m config mouse_action2 resize
+
+yabai -m mouse_drop_action swap
+
+## Space - Browser
+yabai -m rule --add space=1 label="Arc" app="^Arc$"
+yabai -m rule --add space=1 label="Safari" app="^Safari$"
+
+## Space - Development
+yabai -m rule --add space=2 label="Cursor" app="^Cursor$"
+yabai -m rule --add space=2 label="Visual Studio Code" app="^Visual Studio Code$"
+yabai -m rule --add space=2 label="Xcode" app="^Xcode$"
+yabai -m rule --add space=2 label="Simulator" app="^Simulator$" manage=off
+yabai -m rule --add space=2 label="OrbStack" app="^OrbStack$"
+yabai -m rule --add space=2 label="Lens" app="^Lens$"
+yabai -m rule --add space=2 label="Chrome" app="^Google Chrome$"
+yabai -m rule --add space=2 label="GitKraken" app="^GitKraken$"
+yabai -m rule --add space=2 label="Postman" app="^Postman$"
+yabai -m rule --add space=2 label="Proxyman" app="^Proxyman$"
+yabai -m rule --add space=2 label="Android Emulator" app="^Android Emulator$" manage=off
+
+## Space - Terminal
+yabai -m rule --add space=3 label="Terminal" app="^Terminal$"
+yabai -m rule --add space=3 label="Warp" app="^Warp$"
+
+## Space - Communication
+yabai -m rule --add space=4 label="Telegram" app="^Telegram$"
+yabai -m rule --add space=4 label="Discord" app="^Discord$"
+
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^Karabiner-Elements$" manage=off
+
+#### Events
+####################################################################################################
+
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
+sudo yabai --load-sa
+
+borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0 &
