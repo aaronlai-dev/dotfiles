@@ -1,4 +1,3 @@
-export ZSH="$HOME/.oh-my-zsh"
 
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="robbyrussell"
@@ -8,7 +7,42 @@ precmd() { print "" }
 
 plugins=(git fzf-tab zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting)
 
+export ZSH="$HOME/.oh-my-zsh"
 source $ZSH/oh-my-zsh.sh
+
+# Android simulator
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+
+# Enable git info in prompt
+setopt PROMPT_SUBST
+autoload -Uz vcs_info
+
+# Enhanced git prompt info
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' stagedstr '%F{green}●%f'
+zstyle ':vcs_info:*' unstagedstr '%F{red}●%f'
+zstyle ':vcs_info:git*+set-message:*' hooks git-rebase-info
+
++vi-git-rebase-info() {
+    if [[ -d "${hook_com[base]}/.git/rebase-merge" ]] || [[ -d "${hook_com[base]}/.git/rebase-apply" ]]; then
+        local rebase_dir
+        if [[ -d "${hook_com[base]}/.git/rebase-merge" ]]; then
+            rebase_dir="${hook_com[base]}/.git/rebase-merge"
+        else
+            rebase_dir="${hook_com[base]}/.git/rebase-apply"
+        fi
+        
+        if [[ -f "$rebase_dir/msgnum" ]] && [[ -f "$rebase_dir/end" ]]; then
+            local current=$(cat "$rebase_dir/msgnum")
+            local total=$(cat "$rebase_dir/end")
+            hook_com[misc]+=" (rebasing $current/$total)"
+        fi
+    fi
+}
 
 # ---- FZF -----
 
