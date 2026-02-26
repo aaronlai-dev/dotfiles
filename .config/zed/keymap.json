@@ -1,0 +1,128 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "use_key_equivalents": true,
+    "bindings": {
+      "shift shift": "file_finder::Toggle",
+      "ctrl-w i": "terminal_panel::ToggleFocus",
+      "ctrl-w p": "agent::ToggleFocus",
+      "ctrl-w o": "project_panel::ToggleFocus",
+    },
+  },
+  {
+    // I had to add this here because it seems like setting them to null doesn't
+    // really does anything. Duplicating the workspace panel focus works.
+    "context": "(VimControl || (!Editor && !Terminal))",
+    "use_key_equivalents": true,
+    "bindings": {
+      "ctrl-w i": "terminal_panel::ToggleFocus",
+      "ctrl-w p": "agent::ToggleFocus",
+      "ctrl-w o": "project_panel::ToggleFocus",
+    },
+  },
+  {
+    "context": "VimControl && !menu",
+    "bindings": {
+      "g s": "outline::Toggle",
+      "g i": "editor::ToggleCodeActions",
+      "g d": "editor::GoToDefinition",
+      "g b": "pane::GoToOlderTag",
+      "g c": ["editor::ToggleComments", { "advance_downwards": false }],
+    },
+  },
+  {
+    "context": "Editor && VimControl && !VimWaiting && !menu",
+    "bindings": {
+      "g l": "vim::SelectNext",
+      "g L": "vim::SelectPrevious",
+      "g a": "editor::SelectAllMatches",
+      "g shift-a": "editor::FindAllReferences",
+      "g f": "project_symbols::Toggle",
+      "space p e": "diagnostics::Deploy", // Zed specific
+    },
+  },
+  {
+    "context": "Editor && (vim_mode == normal || vim_mode == visual) && !VimWaiting && !menu",
+    "bindings": {
+      // Key-bindings for normal & visual mode
+
+      // Open markdown preview
+      "space m p": "markdown::OpenPreview",
+      "space m P": "markdown::OpenPreviewToTheSide",
+      // Git
+      "space g h d": "editor::ToggleSelectedDiffHunks",
+      "space g h r": "git::Restore",
+    },
+  },
+  {
+    "context": "Editor && vim_mode == normal && !VimWaiting && !menu",
+    "bindings": {
+      // Key-bindings to work only in normal mode
+      "space e": "editor::Hover",
+
+      // Buffers
+      "s v": "pane::SplitRight",
+      "s s": "pane::SplitDown",
+      "s l": "workspace::ActivatePaneRight",
+      "s h": "workspace::ActivatePaneLeft",
+      "s k": "workspace::ActivatePaneUp",
+      "s j": "workspace::ActivatePaneDown",
+      "space h": "pane::ActivatePreviousItem",
+      "space l": "pane::ActivateNextItem",
+      "space c": "pane::CloseActiveItem",
+      "space p f": "file_finder::Toggle",
+      "space p s": "pane::DeploySearch",
+      "space p t": "tab_switcher::Toggle",
+      "space f": "editor::Format",
+      "ctrl-w l": "workspace::ToggleRightDock",
+      "ctrl-w h": "workspace::ToggleLeftDock",
+      "ctrl-w j": "workspace::ToggleBottomDock",
+      "ctrl-w t": "pane::TogglePinTab",
+
+      // Error navigation
+      "[ e": "editor::GoToDiagnostic",
+      "] e": "editor::GoToPreviousDiagnostic",
+
+      // Git
+      "[ g": "editor::GoToHunk",
+      "] g": "editor::GoToPreviousHunk",
+    },
+  },
+  {
+    "context": "Terminal",
+    "use_key_equivalents": true,
+    "bindings": {
+      // Key-bindings for being in terminal
+      "ctrl-w k": "terminal_panel::ToggleFocus",
+    },
+  },
+  {
+    "context": "EmptyPane || SharedScreen",
+    "bindings": {
+      // Key-bindings for empty pane
+      "space p f": "file_finder::Toggle",
+      "space f p": "projects::OpenRecent",
+      "ctrl-w l": "workspace::ToggleRightDock",
+    },
+  },
+  {
+    "context": "Editor && vim_mode == visual && !VimWaiting && !menu",
+    "bindings": {
+      // visual, visual line & visual block modes
+      "g c": "editor::ToggleComments",
+    },
+  },
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      "j k": "vim::NormalBefore",
+    },
+  },
+]
