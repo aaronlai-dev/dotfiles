@@ -1,2 +1,6 @@
 /.DS_Store
 /configstore
+.config/zed/conversations/
+.config/zed/prompts/
+.config/github-copilot
+

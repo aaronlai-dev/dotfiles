@@ -113,3 +113,10 @@ _fzf_comprun() {
 # ---- Eza (better ls) -----
 
 alias ls="eza --icons=always"
+
+# bun completions
+[ -s "/Users/aaronlai/.bun/_bun" ] && source "/Users/aaronlai/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

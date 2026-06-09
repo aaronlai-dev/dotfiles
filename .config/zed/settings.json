@@ -1,4 +1,13 @@
 {
+  "agent": {
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "gpt-5-mini",
+      "enable_thinking": false,
+    },
+    "favorite_models": [],
+    "model_parameters": [],
+  },
   "icon_theme": "Warm Charmed Icons",
   "theme": "Aura Dark",
   "theme_overrides": {
@@ -43,4 +52,83 @@
       "enabled": true,
     },
   },
+  "lsp": {
+    "vtsls": {
+      "settings": {
+        "typescript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always"
+          }
+        },
+        "javascript": {
+          "updateImportsOnFileMove": {
+            "enabled": "always"
+          }
+        }
+      },
+      "enable_lsp_tasks": true
+    },
+    "tailwindcss-language-server": {
+      "settings": {
+        "classAttributes": [
+          "class",
+          "className",
+          "headerClassName",
+          "contentContainerClassName",
+          "columnWrapperClassName",
+          "endFillColorClassName",
+          "imageClassName",
+          "tintColorClassName",
+          "ios_backgroundColorClassName",
+          "thumbColorClassName",
+          "trackColorOnClassName",
+          "trackColorOffClassName",
+          "selectionColorClassName",
+          "cursorColorClassName",
+          "underlineColorAndroidClassName",
+          "placeholderTextColorClassName",
+          "selectionHandleColorClassName",
+          "colorsClassName",
+          "progressBackgroundColorClassName",
+          "titleColorClassName",
+          "underlayColorClassName",
+          "colorClassName",
+          "drawerBackgroundColorClassName",
+          "statusBarBackgroundColorClassName",
+          "backdropColorClassName",
+          "backgroundColorClassName",
+          "ListFooterComponentClassName",
+          "ListHeaderComponentClassName",
+        ],
+        "classFunctions": ["useResolveClassNames"],
+      },
+    },
+  },
+  "languages": {
+    "JavaScript": {
+      "formatter": { "language_server": { "name": "biome" } },
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true,
+      },
+    },
+    "TypeScript": {
+      "formatter": { "language_server": { "name": "biome" } },
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true,
+      },
+    },
+    "TSX": {
+      "formatter": { "language_server": { "name": "biome" } },
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true,
+      },
+    },
+    "CSS": {
+      "language_servers": ["tailwindcss-language-server"],
+    },
+  },
+  "format_on_save": "on",
 }
