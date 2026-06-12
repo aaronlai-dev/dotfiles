@@ -1,6 +1,8 @@
-/.DS_Store
+.DS_Store
 /configstore
 .config/zed/conversations/
 .config/zed/prompts/
 .config/github-copilot
-
+*.lock
+*.mdb
+lock.mdb

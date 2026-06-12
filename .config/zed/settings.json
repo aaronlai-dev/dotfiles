@@ -21,8 +21,16 @@
     "favorite_models": [],
     "model_parameters": [],
   },
-  "icon_theme": "Warm Charmed Icons",
-  "theme": "Aura Dark",
+  "icon_theme": {
+    "mode": "light",
+    "light": "Warm Charmed Icons",
+    "dark": "Warm Charmed Icons"
+  },
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "Aura Dark"
+  },
   "theme_overrides": {
     "Aura Dark": {
       "editor.document_highlight.read_background": "#00000000",
