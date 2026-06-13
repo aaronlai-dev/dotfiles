@@ -125,51 +125,6 @@ alias fix='git absorb --and-rebase'
 
 alias mr='mise run'
 
-
-# ======================================================
-# Prompt / Git info
-# ======================================================
-
-setopt PROMPT_SUBST
-autoload -Uz vcs_info
-
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' stagedstr '%F{green}●%f'
-zstyle ':vcs_info:*' unstagedstr '%F{red}●%f'
-zstyle ':vcs_info:git*+set-message:*' hooks git-rebase-info
-
-+vi-git-rebase-info() {
-  if [[ -d "${hook_com[base]}/.git/rebase-merge" ]] || [[ -d "${hook_com[base]}/.git/rebase-apply" ]]; then
-    local rebase_dir
-
-    if [[ -d "${hook_com[base]}/.git/rebase-merge" ]]; then
-      rebase_dir="${hook_com[base]}/.git/rebase-merge"
-    else
-      rebase_dir="${hook_com[base]}/.git/rebase-apply"
-    fi
-
-    if [[ -f "$rebase_dir/msgnum" ]] && [[ -f "$rebase_dir/end" ]]; then
-      local current
-      local total
-
-      current=$(cat "$rebase_dir/msgnum")
-      total=$(cat "$rebase_dir/end")
-
-      hook_com[misc]+=" (rebasing $current/$total)"
-    fi
-  fi
-}
-
-precmd() {
-  vcs_info
-  print ""
-}
-
-PROMPT='%F{cyan}%~%f ${vcs_info_msg_0_}
-%F{green}➜%f '
-
-
 # ======================================================
 # Functions
 # ======================================================
@@ -184,3 +139,9 @@ mkcd() {
 # ======================================================
 
 [[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"
+
+# ======================================================
+# Starship Prompt
+# ======================================================
+
+eval "$(starship init zsh)"
