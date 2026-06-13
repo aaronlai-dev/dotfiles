@@ -13,6 +13,8 @@ brew "fzf"
 brew "gh"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
+brew "zoxide"
+brew "zinit"
 # A window border system for macOS
 brew "felixkratz/formulae/borders"
 # Simple hotkey-daemon for macOS.

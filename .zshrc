@@ -1,26 +1,138 @@
+# ======================================================
+# Zinit
+# ======================================================
 
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
-# Add blank line before prompt
-precmd() { print "" }
+if [[ ! -d "$ZINIT_HOME" ]]; then
+  mkdir -p "$(dirname "$ZINIT_HOME")"
+  git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+fi
 
-plugins=(git fzf-tab zsh-autosuggestions zsh-syntax-highlighting fast-syntax-highlighting)
+source "$ZINIT_HOME/zinit.zsh"
 
-export ZSH="$HOME/.oh-my-zsh"
-source $ZSH/oh-my-zsh.sh
+# Plugins
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light Aloxaf/fzf-tab
 
-# Android simulator
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+# Oh My Zsh snippets, without loading full Oh My Zsh
+zinit snippet OMZL::git.zsh
+zinit snippet OMZP::git
+zinit snippet OMZP::sudo
+zinit snippet OMZP::command-not-found
 
-# Enable git info in prompt
+autoload -Uz compinit && compinit
+zinit cdreplay -q
+
+
+# ======================================================
+# History
+# ======================================================
+
+HISTSIZE=5000
+HISTFILE="$HOME/.zsh_history"
+SAVEHIST=$HISTSIZE
+
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
+
+# ======================================================
+# Homebrew / Shell integrations
+# ======================================================
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+command -v mise >/dev/null && eval "$(mise activate zsh)"
+command -v zoxide >/dev/null && eval "$(zoxide init --cmd cd zsh)"
+command -v direnv >/dev/null && eval "$(direnv hook zsh)"
+command -v fzf >/dev/null && eval "$(fzf --zsh)"
+
+
+# ======================================================
+# PATH
+# ======================================================
+
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$HOME/.bun/bin:$HOME/.local/bin:$PATH"
+
+
+# ======================================================
+# FZF
+# ======================================================
+
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+
+export FZF_DEFAULT_OPTS="
+  --color=fg:#CBE0F0,bg:#011628,hl:#B388FF
+  --color=fg+:#CBE0F0,bg+:#143652,hl+:#B388FF
+  --color=info:#06BCE4,prompt:#2CF9ED,pointer:#B388FF
+  --color=marker:#2CF9ED,spinner:#2CF9ED,header:#06BCE4
+"
+
+# Better previews with bat
+if command -v bat >/dev/null; then
+  export FZF_CTRL_T_OPTS="
+    --preview 'bat --style=numbers --color=always {}'
+  "
+fi
+
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview '
+  eza --icons --tree --level=2 "$realpath" 2>/dev/null
+'
+
+zstyle ':fzf-tab:complete:*:*' fzf-preview '
+  [[ -f "$realpath" ]] && bat --style=numbers --color=always "$realpath" 2>/dev/null
+'
+
+# ======================================================
+# Aliases
+# ======================================================
+
+if command -v eza >/dev/null; then
+  alias ls='eza --icons'
+  alias ll='eza --icons -lah'
+  alias la='eza --icons -a'
+  alias lt='eza --icons --tree --level=2'
+else
+  alias ls='ls --color=auto'
+  alias ll='ls -lah'
+fi
+
+if command -v bat >/dev/null; then
+  alias cat='bat'
+fi
+
+alias ll='ls -lah'
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gcane='git commit --amend --no-edit'
+alias gp='git push'
+alias gl='git pull'
+alias fix='git absorb --and-rebase'
+
+alias mr='mise run'
+
+
+# ======================================================
+# Prompt / Git info
+# ======================================================
+
 setopt PROMPT_SUBST
 autoload -Uz vcs_info
 
-# Enhanced git prompt info
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' stagedstr '%F{green}●%f'
@@ -28,95 +140,47 @@ zstyle ':vcs_info:*' unstagedstr '%F{red}●%f'
 zstyle ':vcs_info:git*+set-message:*' hooks git-rebase-info
 
 +vi-git-rebase-info() {
-    if [[ -d "${hook_com[base]}/.git/rebase-merge" ]] || [[ -d "${hook_com[base]}/.git/rebase-apply" ]]; then
-        local rebase_dir
-        if [[ -d "${hook_com[base]}/.git/rebase-merge" ]]; then
-            rebase_dir="${hook_com[base]}/.git/rebase-merge"
-        else
-            rebase_dir="${hook_com[base]}/.git/rebase-apply"
-        fi
-        
-        if [[ -f "$rebase_dir/msgnum" ]] && [[ -f "$rebase_dir/end" ]]; then
-            local current=$(cat "$rebase_dir/msgnum")
-            local total=$(cat "$rebase_dir/end")
-            hook_com[misc]+=" (rebasing $current/$total)"
-        fi
+  if [[ -d "${hook_com[base]}/.git/rebase-merge" ]] || [[ -d "${hook_com[base]}/.git/rebase-apply" ]]; then
+    local rebase_dir
+
+    if [[ -d "${hook_com[base]}/.git/rebase-merge" ]]; then
+      rebase_dir="${hook_com[base]}/.git/rebase-merge"
+    else
+      rebase_dir="${hook_com[base]}/.git/rebase-apply"
     fi
+
+    if [[ -f "$rebase_dir/msgnum" ]] && [[ -f "$rebase_dir/end" ]]; then
+      local current
+      local total
+
+      current=$(cat "$rebase_dir/msgnum")
+      total=$(cat "$rebase_dir/end")
+
+      hook_com[misc]+=" (rebasing $current/$total)"
+    fi
+  fi
 }
 
-# ---- FZF -----
-
-# Set up fzf key bindings and fuzzy completion
-eval "$(fzf --zsh)"
-
-# --- setup fzf theme ---
-fg="#CBE0F0"
-bg="#011628"
-bg_highlight="#143652"
-purple="#B388FF"
-blue="#06BCE4"
-cyan="#2CF9ED"
-
-export FZF_DEFAULT_OPTS="--color=fg:${fg},bg:${bg},hl:${purple},fg+:${fg},bg+:${bg_highlight},hl+:${purple},info:${blue},prompt:${cyan},pointer:${cyan},marker:${cyan},spinner:${cyan},header:${cyan}"
-
-# -- Use fd instead of fzf --
-
-export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
-
-# Optional but recommended fzf-tab settings
-zstyle ':completion:*' menu select
-zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-zstyle ':fzf-tab:*' fzf-flags --preview 'echo {}' --preview-window=down:3:wrap
-
-autoload -Uz compinit && compinit
-
-# Use fd (https://github.com/sharkdp/fd) for listing path candidates.
-# - The first argument to the function ($1) is the base path to start traversal
-# - See the source code (completion.{bash,zsh}) for the details.
-_fzf_compgen_path() {
-  fd --hidden --exclude .git . "$1"
+precmd() {
+  vcs_info
+  print ""
 }
 
-# Use fd to generate the list for directory completion
-_fzf_compgen_dir() {
-  fd --type=d --hidden --exclude .git . "$1"
+PROMPT='%F{cyan}%~%f ${vcs_info_msg_0_}
+%F{green}➜%f '
+
+
+# ======================================================
+# Functions
+# ======================================================
+
+mkcd() {
+  mkdir -p "$1" && cd "$1"
 }
 
-source ~/fzf-git.sh/fzf-git.sh
 
-show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
+# ======================================================
+# Bun completions
+# ======================================================
 
-export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
-export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
-
-# Advanced customization of fzf options via _fzf_comprun function
-# - The first argument to the function is the name of the command.
-# - You should make sure to pass the rest of the arguments to fzf.
-_fzf_comprun() {
-  local command=$1
-  shift
-
-  case "$command" in
-    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
-    export|unset) fzf --preview "eval 'echo \${}'"         "$@" ;;
-    ssh)          fzf --preview 'dig {}'                   "$@" ;;
-    *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
-  esac
-}
-
-# ----- Bat (better cat) -----
-
-#export BAT_THEME=tokyonight_night
-
-# ---- Eza (better ls) -----
-
-alias ls="eza --icons=always"
-
-# bun completions
-[ -s "/Users/aaronlai/.bun/_bun" ] && source "/Users/aaronlai/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+[[ -s "$HOME/.bun/_bun" ]] && source "$HOME/.bun/_bun"

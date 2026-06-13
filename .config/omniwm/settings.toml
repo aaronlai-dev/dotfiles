@@ -46,7 +46,7 @@ top = 2.0
 
 [general]
 animationsEnabled = true
-defaultLayoutType = "niri"
+defaultLayoutType = "dwindle"
 hotkeysEnabled = true
 hyperKeyHoldThresholdMilliseconds = 150
 hyperTrigger = "Left Option"
