@@ -8,13 +8,13 @@ mode = "dark"
 
 [borders]
 enabled = true
-width = 4.0
+width = 3.0
 
 [borders.color]
-alpha = 1.0
-blue = 0.9034265875816345
-green = 0.7153117060661316
-red = 0.5863786339759827
+alpha = 0.13355654761904762
+blue = 0.8574659824371338
+green = 0.4746771454811096
+red = 0.5316856503486633
 
 [clipboard]
 historyEnabled = true
