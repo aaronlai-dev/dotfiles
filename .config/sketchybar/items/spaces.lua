@@ -95,7 +95,7 @@ for i = 1, 7, 1 do
             highlight_color = colors.white,
             font = "sketchybar-app-font:Regular:16.0",
             y_offset = -1,
-            string = " —",
+            string = "",
         },
         padding_right = 1,
         padding_left = 1,
@@ -176,7 +176,7 @@ local spaces_indicator = sbar.add("item", {
     padding_right = 0,
     icon = {
         padding_left = 8,
-        padding_right = 9,
+        padding_right = 8,
         color = colors.grey,
         string = icons.switch.on,
     },
@@ -234,12 +234,15 @@ local function update_workspace_apps()
             end
         end
 
-        if icon_line == "" then
-            icon_line = " —"
-        end
+        local has_apps = icon_line ~= ""
 
         sbar.animate("tanh", 10, function()
-            space.item:set({ label = icon_line })
+            space.item:set({
+                label = {
+                    string = icon_line,
+                    padding_right = has_apps and 20 or 5,
+                },
+            })
         end)
     end
 end
