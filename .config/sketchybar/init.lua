@@ -11,6 +11,10 @@ require("default")
 require("items")
 sbar.end_config()
 
+-- Start OmniWM workspace watcher
+sbar.exec("pkill -f omniwm_workspace_watcher.sh 2>/dev/null")
+sbar.exec(os.getenv("HOME") .. "/.config/sketchybar/helpers/omniwm_workspace_watcher.sh &")
+
 -- Run the event loop of the sketchybar module (without this there will be no
 -- callback functions executed in the lua module)
 sbar.event_loop()
