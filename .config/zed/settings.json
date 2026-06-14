@@ -1,15 +1,16 @@
 {
+  "cli_default_open_behavior": "new_window",
   "project_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "outline_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "collaboration_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "git_panel": {
-    "dock": "left"
+    "dock": "left",
   },
   "agent": {
     "dock": "right",
@@ -24,12 +25,12 @@
   "icon_theme": {
     "mode": "light",
     "light": "Warm Charmed Icons",
-    "dark": "Warm Charmed Icons"
+    "dark": "Warm Charmed Icons",
   },
   "theme": {
     "mode": "dark",
     "light": "One Light",
-    "dark": "Aura Dark"
+    "dark": "Aura Dark",
   },
   "theme_overrides": {
     "Aura Dark": {
@@ -78,16 +79,16 @@
       "settings": {
         "typescript": {
           "updateImportsOnFileMove": {
-            "enabled": "always"
-          }
+            "enabled": "always",
+          },
         },
         "javascript": {
           "updateImportsOnFileMove": {
-            "enabled": "always"
-          }
-        }
+            "enabled": "always",
+          },
+        },
       },
-      "enable_lsp_tasks": true
+      "enable_lsp_tasks": true,
     },
     "tailwindcss-language-server": {
       "settings": {
@@ -152,4 +153,11 @@
     },
   },
   "format_on_save": "on",
+  "auto_install_extensions": {
+    "html": true,
+    "aura-theme": true,
+    "charmed-icons": true,
+    "lua": true,
+    "python": true,
+  },
 }
