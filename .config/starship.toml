@@ -7,19 +7,21 @@ $git_status\
 $git_commit\
 $git_state\
 $fill\
-$nodejs\
-$dotnet\
-$python\
-$java\
-$lua\
-$golang\
-$c\
 $cmd_duration\
 $shell\
 $time\
 $line_break\
 $character\
 """
+
+### Between fill and cmd_duration
+# $nodejs\
+# $dotnet\
+# $python\
+# $java\
+# $lua\
+# $golang\
+# $c\
 
 palette = 'aura_dark'
 add_newline = true
