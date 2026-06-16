@@ -7,14 +7,6 @@ sbar.add("event", "omniwm_workspace_change")
 
 local spaces = {}
 
-local function parse_lines(s)
-    local result = {}
-    for line in s:gmatch("[^\r\n]+") do
-        table.insert(result, line)
-    end
-    return result
-end
-
 local function get_workspaces()
     local file = io.popen("omniwmctl query workspaces --format tsv 2>/dev/null")
     if not file then return {} end
