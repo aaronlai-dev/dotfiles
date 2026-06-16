@@ -71,18 +71,16 @@ export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
 
-export FZF_DEFAULT_OPTS="
-  --color=fg:#CBE0F0,bg:#011628,hl:#B388FF
-  --color=fg+:#CBE0F0,bg+:#143652,hl+:#B388FF
-  --color=info:#06BCE4,prompt:#2CF9ED,pointer:#B388FF
-  --color=marker:#2CF9ED,spinner:#2CF9ED,header:#06BCE4
-"
+export FZF_DEFAULT_OPTS=" \
+  --color=fg:#F8F8F2,bg:#282A36,hl:#a277ff \
+  --color=fg+:#F8F8F2,bg+:#44475A,hl+:#a277ff \
+  --color=info:#82e2ff,prompt:#61ffca,pointer:#a277ff \
+  --color=marker:#61ffca,spinner:#61ffca,header:#82e2ff"
 
 # Better previews with bat
 if command -v bat >/dev/null; then
   export FZF_CTRL_T_OPTS="
-    --preview 'bat --style=numbers --color=always {}'
-  "
+    --preview 'bat --style=numbers --color=always {}' "
 fi
 
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
@@ -91,7 +89,6 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview '
   eza --icons --tree --level=2 "$realpath" 2>/dev/null
 '
-
 zstyle ':fzf-tab:complete:*:*' fzf-preview '
   [[ -f "$realpath" ]] && bat --style=numbers --color=always "$realpath" 2>/dev/null
 '
