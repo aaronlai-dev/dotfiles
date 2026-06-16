@@ -1,5 +1,4 @@
 monitorBarOverrides = []
-monitorDwindleOverrides = []
 monitorNiriOverrides = []
 monitorOrientationOverrides = []
 
@@ -65,7 +64,7 @@ scrollSensitivity = 5.0
 [mouseWarp]
 axis = "horizontal"
 margin = 1
-monitorOrder = []
+monitorOrder = ["DELL U2715H", "Built-in Retina Display"]
 
 [niri]
 alwaysCenterSingleColumn = false
@@ -721,6 +720,15 @@ id = "toggleWorkspaceLayout"
 [[hotkeys]]
 binding = "Hyper+Shift+O"
 id = "toggleOverview"
+
+[[monitorDwindleOverrides]]
+id = "846CE875-2427-475C-A5C0-B3E3C690AFBD"
+monitorDisplayId = 2
+monitorName = "VG279QR"
+outerGapBottom = 2.0
+outerGapTop = 36.0
+singleWindowAspectRatio = "16:9"
+useGlobalGaps = false
 
 [[workspaces]]
 id = "AD36F001-C57E-41A5-AC1D-DF5249D007F0"
