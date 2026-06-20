@@ -1,0 +1,38 @@
+[alias]
+    # Status
+    st = status -sb
+
+    # Branches
+    br = branch --sort=-committerdate -vv
+
+    # Checkout / Switch
+    sw = switch
+    cob = switch -c
+
+    # Commits
+    cm = commit -m
+    cane = commit --amend --no-edit
+
+    # Push/Pull
+    pf = push --force-with-lease
+
+    # Logs
+    lg = log --graph --decorate --oneline --all
+    lgg = log --graph --decorate --pretty=format:'%C(auto)%h%d %s %Cgreen(%cr) %Cblue<%an>' --all
+
+    # Diff
+    d = diff
+    dc = diff --cached
+
+    # Undo
+    unstage = restore --staged
+    uncommit = reset --soft HEAD~1
+
+    # Cleanup
+    prune = fetch --prune
+
+    # Find branch containing commit
+    who = branch --contains
+
+    # Recent branches
+    recent = for-each-ref --sort=-committerdate refs/heads/ --format='%(refname:short)'

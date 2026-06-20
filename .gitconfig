@@ -1,0 +1,6 @@
+[user]
+    name = Aaron Lai
+    email = aaronlai185@gmail.com
+
+[include]
+    path = ~/.config/git/aliases
