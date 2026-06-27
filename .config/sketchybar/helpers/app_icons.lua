@@ -142,6 +142,7 @@ return {
     ["LocalSend"] = ":localsend:",
     ["Logic Pro"] = ":logicpro:",
     ["Logseq"] = ":logseq:",
+    ["Loom"] = ":loom:",
     ["Canary Mail"] = ":mail:",
     ["HEY"] = ":mail:",
     ["Mail"] = ":mail:",
